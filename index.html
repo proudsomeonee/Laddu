@@ -174,9 +174,9 @@
     noBtn.style.left = "50px";
     noBtn.style.top = "200px";
 
-    // NO button moves INSIDE screen bounds only
+    // NO button moves inside screen bounds only
     noBtn.addEventListener("mouseover", () => {
-      const padding = 15; // safe margin from edges
+      const padding = 15; // safe margin
       const btnWidth = noBtn.offsetWidth;
       const btnHeight = noBtn.offsetHeight;
 
@@ -192,7 +192,8 @@
 
     // YES button opens love page + plays music
     yesBtn.addEventListener("click", () => {
-      music.play();
+      music.play().catch(()=>{alert("Tap anywhere to start the music!");});
+
       document.body.innerHTML = `
         <div style="
           height:100vh;
@@ -219,8 +220,8 @@
       `;
     });
 
-    // Mobile fix: start music after first tap
-    document.body.addEventListener("click", () => { music.play(); });
+    // Mobile: play music on first tap anywhere
+    document.body.addEventListener("click", () => { music.play().catch(()=>{}); }, { once: true });
   </script>
 
 </body>
