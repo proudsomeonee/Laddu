@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laddu✨Will You Be My Valentine?</title>
+  <title>Laddu ✨ Valentine?</title>
 
   <style>
     body {
@@ -17,11 +17,10 @@
       font-family: Comic Sans MS, cursive;
     }
 
-    /* Main Card */
     .card {
       width: 90%;
       max-width: 420px;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.92);
       border-radius: 30px;
       padding: 35px 20px;
       text-align: center;
@@ -41,15 +40,11 @@
       margin-bottom: 20px;
     }
 
-    /* Button Box */
     .btn-box {
-      margin-top: 25px;
       display: flex;
       justify-content: center;
       gap: 20px;
-      position: relative;
-      height: 70px;
-      width: 100%;
+      margin-top: 20px;
     }
 
     button {
@@ -58,29 +53,56 @@
       font-size: 18px;
       border-radius: 16px;
       cursor: pointer;
+      transition: 0.2s;
     }
 
-    #yesBtn {
+    .yesBtn {
       background: #ff4d88;
       color: white;
-      z-index: 2;
     }
 
-    #noBtn {
+    .noBtn {
       background: #333;
       color: white;
-      position: absolute;
-      left: 65%;
-      top: 0;
     }
 
-    /* Popup */
-    #popup {
+    /* Cute Text */
+    #cuteText {
       display: none;
       margin-top: 18px;
-      font-size: 18px;
+      font-size: 16px;
       color: #ff4d88;
       font-weight: bold;
+    }
+
+    /* Balloon Hearts */
+    .balloon {
+      position: fixed;
+      font-size: 50px;
+      animation: flyToCenter 1.5s ease forwards;
+    }
+
+    @keyframes flyToCenter {
+      from {
+        transform: translateY(250px);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+    }
+
+    /* Blast Effect */
+    .blast {
+      animation: blast 0.6s ease forwards;
+    }
+
+    @keyframes blast {
+      to {
+        transform: scale(2.5);
+        opacity: 0;
+      }
     }
 
     /* Love Screen */
@@ -94,6 +116,12 @@
       flex-direction: column;
       text-align: center;
       z-index: 5;
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
     }
 
     #loveScreen h2 {
@@ -116,25 +144,26 @@
 <body>
 
   <!-- Main Card -->
-  <div class="card">
-
+  <div class="card" id="mainCard">
     <h1>💘 Laddu ✨ Will You Be My Valentine? 💘</h1>
     <p>You are my sweetest dream 🌸</p>
 
     <div class="btn-box">
-      <button id="yesBtn">Yes 💖</button>
-      <button id="noBtn">No 💔</button>
+      <button id="yesBtn1" class="yesBtn">Yes 💖</button>
+      <button id="noBtn" class="noBtn">No 💔</button>
     </div>
 
-    <div id="popup">Surprise unlocked 🎶💖</div>
-
+    <!-- Cute Text -->
+    <div id="cuteText">
+      No bolna allowed nhi hai Meri Pyaari Aachuuuu 💗🧿
+    </div>
   </div>
 
   <!-- Love Screen -->
   <div id="loveScreen">
-    <h2>YESYESYES Laddu ✨💖</h2>
+    <h2>Yayyy Laddu ✨💖</h2>
     <p>I Love You So Much 😘💞</p>
-    <div class="stickers">💌🎀✨💖</div>
+    <div class="stickers">🧸💌🌹🎀🍫✨💖</div>
   </div>
 
   <!-- Music -->
@@ -144,50 +173,75 @@
 
   <script>
     const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const popup = document.getElementById("popup");
-    const loveScreen = document.getElementById("loveScreen");
+    const cuteText = document.getElementById("cuteText");
     const music = document.getElementById("music");
+    const loveScreen = document.getElementById("loveScreen");
 
-    /* ✅ NO Button Moves ONLY in Safe Zone (Never on YES) */
-    noBtn.addEventListener("mouseenter", () => {
+    let bothYes = false;
 
-      // Safe area ONLY right side inside box
-      const safeMinX = 220;
-      const safeMaxX = 320;
+    /* STEP 1: NO becomes YES */
+    noBtn.addEventListener("click", () => {
+      noBtn.innerHTML = "Yes 💖";
+      noBtn.classList.remove("noBtn");
+      noBtn.classList.add("yesBtn");
 
-      const safeMinY = 0;
-      const safeMaxY = 40;
+      cuteText.style.display = "block";
 
-      let x = Math.random() * (safeMaxX - safeMinX) + safeMinX;
-      let y = Math.random() * (safeMaxY - safeMinY) + safeMinY;
-
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+      bothYes = true;
     });
 
-    /* ✅ YES Button Works Perfectly */
-    yesBtn.addEventListener("click", () => {
+    /* STEP 2: Clicking any YES triggers balloons */
+    function startFinalAnimation() {
+      if (!bothYes) return;
 
-      // Popup show
-      popup.style.display = "block";
+      // Create 6 heart balloons
+      for (let i = 0; i < 6; i++) {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.innerHTML = "🎈💖";
 
-      // Music start properly
-      music.currentTime = 0;
-      music.play().catch(() => {
-        alert("Music file issue: check code.mp3 upload");
-      });
+        // Random start position
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.top = "70vh";
 
-      // Popup stays 5 sec
+        document.body.appendChild(balloon);
+
+        // Move to center and blast
+        setTimeout(() => {
+          balloon.style.left = "50vw";
+          balloon.style.top = "40vh";
+
+          balloon.classList.add("blast");
+        }, 1200);
+
+        // Remove balloon
+        setTimeout(() => {
+          balloon.remove();
+        }, 2000);
+      }
+
+      // Start music at blast moment
       setTimeout(() => {
-        popup.style.display = "none";
-      }, 5000);
+        music.currentTime = 0;
+        music.play();
+      }, 1500);
 
-      // Love screen opens after 5 sec
+      // Open final love page smoothly
       setTimeout(() => {
         loveScreen.style.display = "flex";
-      }, 5000);
+      }, 2200);
+    }
+
+    /* YES Button Click */
+    document.getElementById("yesBtn1").addEventListener("click", startFinalAnimation);
+
+    /* Converted YES Button Click */
+    noBtn.addEventListener("click", () => {
+      setTimeout(() => {
+        noBtn.addEventListener("click", startFinalAnimation);
+      }, 300);
     });
+
   </script>
 
 </body>
