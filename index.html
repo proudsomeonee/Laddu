@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Laddu ✨ Will You Be My Valentine?</title>
 
   <style>
@@ -12,10 +12,86 @@
       font-family: "Comic Sans MS", cursive;
       height: 100vh;
       overflow: hidden;
+      background: linear-gradient(to bottom, #ffe6f0, #ffd6eb);
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(to bottom, #ffe6f0, #ffd6eb);
+    }
+
+    /* Card */
+    .card {
+      width: 90%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 30px;
+      padding: 35px 20px;
+      text-align: center;
+      box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 2;
+      animation: popIn 1s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+      color: #ff4d88;
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    /* Surprise Text Hidden Initially */
+    .hint {
+      font-size: 14px;
+      color: #ff4d88;
+      margin-bottom: 18px;
+      font-style: italic;
+      display: none;
+    }
+
+    /* Buttons */
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    button {
+      border: none;
+      padding: 14px 26px;
+      font-size: 18px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    #yesBtn {
+      background: #ff5c93;
+      color: white;
+      box-shadow: 0px 5px 15px rgba(255,92,147,0.4);
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.08);
+    }
+
+    #noBtn {
+      background: #444;
+      color: white;
+      position: absolute;
+      left: 160px;
+      top: 0px;
     }
 
     /* Floating Hearts */
@@ -32,135 +108,55 @@
       100% { transform: translateY(-120vh); opacity: 0; }
     }
 
-    /* Sparkles */
-    .sparkle {
+    /* Confetti */
+    .confetti {
       position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: white;
-      opacity: 0.8;
-      animation: twinkle 3s infinite;
+      width: 10px;
+      height: 10px;
+      background: pink;
+      top: -20px;
+      animation: fall 3s linear forwards;
     }
 
-    @keyframes twinkle {
-      0%,100% { opacity: 0.2; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.8); }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
     }
 
-    /* Main Card */
-    .card {
-      background: rgba(255,255,255,0.78);
-      border-radius: 35px;
-      padding: 35px 25px;
-      text-align: center;
-      width: 90%;
-      max-width: 430px;
-      box-shadow: 0px 10px 35px rgba(0,0,0,0.18);
-      position: relative;
-      z-index: 2;
-      backdrop-filter: blur(10px);
-      border: 4px solid rgba(255,182,213,0.6);
-    }
-
-    h1 {
-      color: #ff4d88;
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: #555;
-      font-size: 17px;
-      margin-bottom: 25px;
-    }
-
-    /* Buttons */
-    button {
-      border: none;
-      padding: 14px 28px;
-      font-size: 18px;
-      border-radius: 18px;
-      cursor: pointer;
-      margin: 10px;
-      transition: 0.2s;
-    }
-
-    #yesBtn {
-      background: #ff5c93;
-      color: white;
-      box-shadow: 0px 5px 15px rgba(255, 92, 147, 0.45);
-    }
-
-    #yesBtn:hover {
-      transform: scale(1.1);
-    }
-
-    #noBtn {
-      background: #444;
-      color: white;
-      position: absolute;
-    }
-
-    /* Stickers */
     .stickers {
       font-size: 50px;
       margin-top: 18px;
-    }
-
-    @media(max-width:600px) {
-      h1 { font-size: 24px; }
-      button { width: 80%; font-size: 16px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Sparkles -->
-  <script>
-    for(let i=0;i<25;i++){
-      let s = document.createElement("div");
-      s.classList.add("sparkle");
-      s.style.left = Math.random()*100+"vw";
-      s.style.top = Math.random()*100+"vh";
-      s.style.animationDuration=(Math.random()*2+2)+"s";
-      document.body.appendChild(s);
-    }
-  </script>
-
-  <!-- Floating Hearts -->
-  <script>
-    function createHeart(){
-      const heart=document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML="💖";
-      heart.style.left=Math.random()*100+"vw";
-      heart.style.animationDuration=(Math.random()*3+3)+"s";
-      heart.style.fontSize=(Math.random()*20+15)+"px";
-      document.body.appendChild(heart);
-      setTimeout(()=>heart.remove(),6000);
-    }
-    setInterval(createHeart,250);
-  </script>
-
   <!-- Proposal Card -->
   <div class="card">
     <h1>💘 Laddu ✨ Will You Be My Valentine? 💘</h1>
+
     <p>
       You are my sweetest dream,<br>
       my heart’s favorite melody 🌸
     </p>
 
-    <button id="yesBtn">Yes 💖</button>
-    <button id="noBtn">No 💔</button>
-
-    <div class="stickers">
-      🧸🌹💌🍫🎀✨
+    <!-- Surprise Text -->
+    <div class="hint" id="hintText">
+      (Surprise unlocked 🎶💖)
     </div>
+
+    <div class="btn-container">
+      <button id="yesBtn">Yes 💖</button>
+      <button id="noBtn">No 💔</button>
+    </div>
+
+    <div class="stickers">🧸🌹💌🍫🎀✨</div>
   </div>
 
-  <!-- Legal Music File -->
+  <!-- Music -->
   <audio id="bgMusic" loop>
     <source src="code.mp3" type="audio/mpeg">
   </audio>
@@ -169,59 +165,107 @@
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
     const music = document.getElementById("bgMusic");
+    const hintText = document.getElementById("hintText");
 
-    // Set initial NO button position
-    noBtn.style.left = "50px";
-    noBtn.style.top = "200px";
+    /* ✅ NO Button stays inside screen and avoids YES */
+    noBtn.addEventListener("mouseenter", () => {
+      const safePadding = 20;
+      const maxX = window.innerWidth - noBtn.offsetWidth - safePadding;
+      const maxY = window.innerHeight - noBtn.offsetHeight - safePadding;
 
-    // NO button moves inside screen bounds only
-    noBtn.addEventListener("mouseover", () => {
-      const padding = 15; // safe margin
-      const btnWidth = noBtn.offsetWidth;
-      const btnHeight = noBtn.offsetHeight;
+      const yesRect = yesBtn.getBoundingClientRect();
+      let x, y;
 
-      const maxX = window.innerWidth - btnWidth - padding;
-      const maxY = window.innerHeight - btnHeight - padding;
+      do {
+        x = Math.random() * maxX;
+        y = Math.random() * maxY;
+      } while (
+        x > yesRect.left - 70 &&
+        x < yesRect.right + 70 &&
+        y > yesRect.top - 70 &&
+        y < yesRect.bottom + 70
+      );
 
-      const x = Math.random() * (maxX - padding) + padding;
-      const y = Math.random() * (maxY - padding) + padding;
-
+      noBtn.style.position = "fixed";
       noBtn.style.left = `${x}px`;
       noBtn.style.top = `${y}px`;
     });
 
-    // YES button opens love page + plays music
-    yesBtn.addEventListener("click", () => {
-      music.play().catch(()=>{alert("Tap anywhere to start the music!");});
+    /* 🎉 Confetti Function */
+    function launchConfetti() {
+      for (let i = 0; i < 40; i++) {
+        const conf = document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.left = Math.random() * 100 + "vw";
+        conf.style.background = ["#ff4d88", "#ffd6eb", "#ffe6f0"][Math.floor(Math.random()*3)];
+        conf.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(conf);
 
-      document.body.innerHTML = `
-        <div style="
-          height:100vh;
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          flex-direction:column;
-          text-align:center;
-          background:linear-gradient(to bottom,#ffe6f0,#ffd6eb);
-          font-family:Comic Sans MS;
-          padding:20px;
-        ">
-          <h1 style="color:#ff4d88;font-size:50px;">
-            Yayyy Laddu ✨💖
-          </h1>
-          <p style="font-size:22px;color:#444;max-width:500px;">
-            You just made my heart the happiest place 🌸<br>
-            I Love You So Much 😘💞
-          </p>
-          <div style="font-size:75px;margin:25px;">
-            🧸💌🌹🎀🍫✨💖
+        setTimeout(() => conf.remove(), 3000);
+      }
+    }
+
+    /* 💖 YES Button Action */
+    yesBtn.addEventListener("click", () => {
+
+      // Show surprise text
+      hintText.style.display = "block";
+
+      // Play music ONLY after YES
+      music.play().catch(() => {});
+
+      // Confetti blast
+      launchConfetti();
+
+      // After 1.5 sec open love page
+      setTimeout(() => {
+        document.body.innerHTML = `
+          <div style="
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            text-align:center;
+            background:linear-gradient(to bottom,#ffe6f0,#ffd6eb);
+            font-family:Comic Sans MS;
+            padding:20px;
+            animation: popIn 1s ease;
+          ">
+            <h1 style="color:#ff4d88;font-size:52px;">
+              Yayyy Laddu ✨💖
+            </h1>
+
+            <p style="font-size:22px;color:#444;max-width:520px;">
+              You just made my heart the happiest place 🌸<br>
+              I Love You So Much 😘💞
+            </p>
+
+            <div style="font-size:80px;margin:25px;">
+              🧸💌🌹🎀🍫✨💖
+            </div>
+
+            <p style="font-size:18px;color:#ff4d88;">
+              Forever my Valentine 💘
+            </p>
           </div>
-        </div>
-      `;
+        `;
+      }, 1500);
     });
 
-    // Mobile: play music on first tap anywhere
-    document.body.addEventListener("click", () => { music.play().catch(()=>{}); }, { once: true });
+    /* Floating Hearts */
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 250);
   </script>
 
 </body>
