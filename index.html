@@ -66,7 +66,6 @@
       color: white;
     }
 
-    /* Cute Text */
     #cuteText {
       display: none;
       margin-top: 18px;
@@ -75,7 +74,6 @@
       font-weight: bold;
     }
 
-    /* Balloon Hearts */
     .balloon {
       position: fixed;
       font-size: 50px;
@@ -93,7 +91,6 @@
       }
     }
 
-    /* Blast Effect */
     .blast {
       animation: blast 0.6s ease forwards;
     }
@@ -105,7 +102,6 @@
       }
     }
 
-    /* Love Screen */
     #loveScreen {
       display: none;
       position: fixed;
@@ -143,43 +139,80 @@
 
 <body>
 
-  <!-- Main Card -->
   <div class="card" id="mainCard">
-    <h1> Laddu ✨ Will You Be My Valentine? 💗</h1>
+    <h1>💘 Laddu ✨ Will You Be My Valentine? 💘</h1>
     <p>You are my sweetest dream 🌸</p>
 
     <div class="btn-box">
-      <button id="yesBtn1" class="yesBtn">Yes 💖</button>
+      <button id="yesBtn" class="yesBtn">Yes 💖</button>
       <button id="noBtn" class="noBtn">No 💔</button>
     </div>
 
-    <!-- Cute Text -->
     <div id="cuteText">
       No bolna allowed nhi hai Meri Pyaari Aachuuuu 💗🧿
     </div>
   </div>
 
-  <!-- Love Screen -->
   <div id="loveScreen">
-    <h2>Yayayaya BABY✨💗</h2>
+    <h2>Yayyy Laddu ✨💖</h2>
     <p>I Love You So Much 😘💞</p>
-    <div class="stickers">💌✨💗</div>
+    <div class="stickers">🧸💌🌹🎀🍫✨💖</div>
   </div>
 
-  <!-- Music -->
   <audio id="music" loop>
     <source src="code.mp3" type="audio/mpeg">
   </audio>
 
   <script>
+    const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const cuteText = document.getElementById("cuteText");
     const music = document.getElementById("music");
     const loveScreen = document.getElementById("loveScreen");
 
-    let bothYes = false;
+    let animationDone = false;
 
-    /* STEP 1: NO becomes YES */
+    // 🎈 Final Animation Function
+    function startFinalAnimation() {
+      if (animationDone) return;
+      animationDone = true;
+
+      // Create balloons
+      for (let i = 0; i < 6; i++) {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.innerHTML = "🎈💖";
+
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.top = "70vh";
+
+        document.body.appendChild(balloon);
+
+        setTimeout(() => {
+          balloon.style.left = "50vw";
+          balloon.style.top = "40vh";
+          balloon.classList.add("blast");
+        }, 1200);
+
+        setTimeout(() => balloon.remove(), 2000);
+      }
+
+      // Music starts at blast
+      setTimeout(() => {
+        music.currentTime = 0;
+        music.play();
+      }, 1500);
+
+      // Final page open
+      setTimeout(() => {
+        loveScreen.style.display = "flex";
+      }, 2200);
+    }
+
+    // ✅ YES works immediately
+    yesBtn.addEventListener("click", startFinalAnimation);
+
+    // ❌ NO converts to YES + still works
     noBtn.addEventListener("click", () => {
       noBtn.innerHTML = "Yes 💖";
       noBtn.classList.remove("noBtn");
@@ -187,63 +220,10 @@
 
       cuteText.style.display = "block";
 
-      bothYes = true;
+      // Now clicking it triggers animation too
+      noBtn.addEventListener("click", startFinalAnimation);
     });
-
-    /* STEP 2: Clicking any YES triggers balloons */
-    function startFinalAnimation() {
-      if (!bothYes) return;
-
-      // Create 6 heart balloons
-      for (let i = 0; i < 6; i++) {
-        const balloon = document.createElement("div");
-        balloon.classList.add("balloon");
-        balloon.innerHTML = "🎈💖";
-
-        // Random start position
-        balloon.style.left = Math.random() * 100 + "vw";
-        balloon.style.top = "70vh";
-
-        document.body.appendChild(balloon);
-
-        // Move to center and blast
-        setTimeout(() => {
-          balloon.style.left = "50vw";
-          balloon.style.top = "40vh";
-
-          balloon.classList.add("blast");
-        }, 1200);
-
-        // Remove balloon
-        setTimeout(() => {
-          balloon.remove();
-        }, 2000);
-      }
-
-      // Start music at blast moment
-      setTimeout(() => {
-        music.currentTime = 0;
-        music.play();
-      }, 1500);
-
-      // Open final love page smoothly
-      setTimeout(() => {
-        loveScreen.style.display = "flex";
-      }, 2200);
-    }
-
-    /* YES Button Click */
-    document.getElementById("yesBtn1").addEventListener("click", startFinalAnimation);
-
-    /* Converted YES Button Click */
-    noBtn.addEventListener("click", () => {
-      setTimeout(() => {
-        noBtn.addEventListener("click", startFinalAnimation);
-      }, 300);
-    });
-
   </script>
 
 </body>
 </html>
-
